@@ -85,8 +85,10 @@ export const Navigation = createStaticNavigation(RootStack);
 
 type RootStackParamList = StaticParamList<typeof RootStack>;
 
+type AuthStackParamList = StaticParamList<typeof AuthStack>;
+
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList, AuthStackParamList {}
   }
 }
