@@ -49,53 +49,50 @@ const LoginScreen = () => {
       </View>
 
       {/* Checkbox and Forgot Password */}
-      <View className="flex-row items-center justify-between mt-6 mx-6">
+      <View className="flex-row items-center mt-6 mx-6 gap-2">
         <CheckBox />
-        <Text className="text-yellow-500 font-semibold">Forgot Password?</Text>
+        <Text className="text-neutral-400 font-semibold">Remember Me</Text>
+        <Text className="text-yellow-500 font-semibold ml-auto">
+          Forgot Password?
+        </Text>
       </View>
 
+      {/* Login Button */}
+      <TouchableOpacity className="bg-[#FFDA37] px-8 py-4 rounded-full mt-5">
+        <Text className="text-black text-center font-medium text-lg">
+          Sign In
+        </Text>
+      </TouchableOpacity>
+
       {/* Button Text Section */}
-      <View className="flex-row items-center gap-4 my-6 mx-7">
+      <View className="flex-row items-center gap-4 my-5 mx-7">
         <View className="h-[1px] flex-1 bg-neutral-500"></View>
         <Text className="text-neutral-400 text-lg">Or</Text>
         <View className="h-[1px] flex-1 bg-neutral-500"></View>
       </View>
 
-      {/* Google Login Button */}
-      <TouchableOpacity className="bg-[#FFDA37] px-8 py-4 rounded-full">
-        <View className="flex-row justify-center items-center gap-2">
-          <FontAwesome5
-            className="border border-black rounded-full px-2.5 py-2"
-            name="google"
-            size={20}
-            color="black"
-          />
-          <Text className="text-black font-medium text-lg">
-            Continue With Google
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <View className="flex-row justify-center items-center gap-5">
+        {/* Google Login Button */}
+        <TouchableOpacity className="border border-[#FFDA37] bg-[#FFDA37] px-2.5 py-2 rounded-full">
+          <FontAwesome5 name="google" size={24} color="black" />
+        </TouchableOpacity>
 
-      {/* Apple Login Button */}
-      <TouchableOpacity className="bg-[#FFDA37] px-8 py-4 rounded-full mt-5">
-        <View className="flex-row justify-center items-center gap-2">
-          <FontAwesome5
-            className="border border-black rounded-full px-3 py-2"
-            name="apple"
-            size={20}
-            color="black"
-          />
-          <Text className="text-black font-medium text-lg">
-            Continue With Apple
-          </Text>
-        </View>
-      </TouchableOpacity>
+        {/* Apple Login Button */}
+        <TouchableOpacity className="border border-[#FFDA37] bg-[#FFDA37] px-3 py-2 rounded-full">
+          <FontAwesome5 name="apple" size={24} color="black" />
+        </TouchableOpacity>
+
+        {/* Facebook Login Button */}
+        <TouchableOpacity className="border border-[#FFDA37] bg-[#FFDA37] px-2.5 py-2 rounded-full">
+          <FontAwesome5 name="facebook" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
 
       {/* Don't have an account? */}
-      <View className="flex-row justify-center items-center mt-5 gap-2">
+      <View className="flex-row justify-center items-center mt-7 gap-2">
         <Text className="text-neutral-400 text-lg">Don't have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text className="text-[#FFDA37] font-semibold text-lg">Register</Text>
+          <Text className="text-[#FFDA37] font-semibold text-lg">Sign Up</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

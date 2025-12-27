@@ -17,10 +17,6 @@ const CheckBox = () => {
       >
         {checked && <Feather name="check" size={14} color="white" />}
       </View>
-
-      <Text className="font-dmBold text-base text-neutral-400">
-        Remember Me
-      </Text>
     </Pressable>
   );
 };
