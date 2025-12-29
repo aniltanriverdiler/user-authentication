@@ -5,8 +5,27 @@ import Feather from "@expo/vector-icons/Feather";
 import CheckBox from "../../../components/common/CheckBox";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useNavigation } from "@react-navigation/native";
+import { useForm, Controller } from "react-hook-form";
+
+type FormData = {
+  Email: string;
+  Password: string;
+};
 
 const LoginScreen = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      Email: "",
+      Password: "",
+    },
+  });
+
+  const onSubmit = (data: FormData) => console.log(data);
+
   const navigation = useNavigation();
 
   const [isSecure, setIsSecure] = useState(true);
@@ -26,27 +45,57 @@ const LoginScreen = () => {
       <Text className="text-neutral-400 text-left text-[16px] font-semibold mt-24 ml-6 mb-1">
         Email
       </Text>
-      <TextInput
-        className="bg-[#111111] text-neutral-400 border rounded-full p-6 mt-2 mx-4"
-        placeholder="tanriverdileranil@gmail.com"
-        placeholderTextColor="#a3a3a3"
+      <Controller
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            className="bg-[#111111] text-neutral-400 border rounded-full p-6 mt-2 mx-4"
+            placeholder="tanriverdileranil@gmail.com"
+            placeholderTextColor="#a3a3a3"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="Email"
       />
+      {errors.Email && (
+        <Text className="text-red-500 text-sm ml-6 mt-1">
+          Email is required
+        </Text>
+      )}
 
       {/* Password Input */}
       <Text className="text-neutral-400 text-left text-[16px] font-semibold mt-6 ml-6 mb-1">
         Password
       </Text>
       <View className="flex-row items-center bg-[#111111] border rounded-full px-5 py-3 mt-2 mx-4">
-        <TextInput
-          className="flex-1 text-neutral-400"
-          placeholder="********"
-          secureTextEntry={isSecure}
-          placeholderTextColor="#a3a3a3"
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              className="flex-1 text-neutral-400"
+              placeholder="********"
+              secureTextEntry={isSecure}
+              placeholderTextColor="#a3a3a3"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="Password"
         />
         <TouchableOpacity onPress={() => setIsSecure(!isSecure)}>
           <Feather name={isSecure ? "eye" : "eye-off"} size={22} color="gray" />
         </TouchableOpacity>
       </View>
+      {errors.Password && (
+        <Text className="text-red-500 text-sm ml-6 mt-1">
+          Password is required
+        </Text>
+      )}
 
       {/* Checkbox and Forgot Password */}
       <View className="flex-row items-center mt-6 mx-6 gap-2">
@@ -58,7 +107,10 @@ const LoginScreen = () => {
       </View>
 
       {/* Login Button */}
-      <TouchableOpacity className="bg-[#FFDA37] px-8 py-4 rounded-full mt-5">
+      <TouchableOpacity
+        onPress={handleSubmit(onSubmit)}
+        className="bg-[#FFDA37] px-8 py-4 rounded-full mt-5"
+      >
         <Text className="text-black text-center font-medium text-lg">
           Sign In
         </Text>
