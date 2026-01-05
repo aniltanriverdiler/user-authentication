@@ -6,14 +6,19 @@ import { useNavigation } from "@react-navigation/native";
 import Feather from "@expo/vector-icons/Feather";
 import CheckBox from "../../../components/common/CheckBox";
 import { useForm, Controller } from "react-hook-form";
+import { useAuthStore } from "../../../store/auth";
 
 type FormData = {
-  Email: string;
-  Password: string;
-  ConfirmPassword: string;
+  email: string;
+  fullName: string;
+  password: string;
+  confirmPassword: string;
 };
 
 const RegisterScreen = () => {
+  const register = useAuthStore((state) => state.register);
+  const navigation = useNavigation();
+
   const {
     control,
     handleSubmit,
@@ -21,30 +26,31 @@ const RegisterScreen = () => {
     watch,
   } = useForm<FormData>({
     defaultValues: {
-      Email: "",
-      Password: "",
-      ConfirmPassword: "",
+      email: "",
+      fullName: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
-
-  const navigation = useNavigation();
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+    register({ email: data.email, fullName: data.fullName });
+  };
 
   const [isSecure, setIsSecure] = useState(true);
   const [isConfirmSecure, setIsConfirmSecure] = useState(true);
 
-  const password = watch("Password");
+  const password = watch("password");
 
   return (
     <SafeAreaView className="flex-1 bg-black">
       {/* Register Screen Text */}
-      <Text className="text-white text-center text-[40px] font-bold mt-14 mx-6">
+      <Text
+        style={{ fontSize: 24 }}
+        className="text-white text-center font-bold mt-8 mx-6"
+      >
         Create Your Ubar Account
-      </Text>
-      <Text className="text-neutral-400 text-center text-[16px] leading-6 font-bold mt-4 mx-6">
-        Start Your Journey, Book Rides Instantly, And Experience Seamless Travel
-        Everywhere You Go.
       </Text>
 
       {/* Email Input */}
@@ -64,11 +70,36 @@ const RegisterScreen = () => {
             value={value}
           />
         )}
-        name="Email"
+        name="email"
       />
-      {errors.Email && (
+      {errors.email && (
         <Text className="text-red-500 text-sm ml-6 mt-1">
           Email is required
+        </Text>
+      )}
+
+      {/* Full Name Input */}
+      <Text className="text-neutral-400 text-left text-[16px] font-semibold mt-8 ml-6 mb-1">
+        Full Name
+      </Text>
+      <Controller
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            className="bg-[#111111] text-neutral-400 border rounded-full p-6 mt-2 mx-4"
+            placeholder="Anil Tanriverdiler"
+            placeholderTextColor="#a3a3a3"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="fullName"
+      />
+      {errors.fullName && (
+        <Text className="text-red-500 text-sm ml-6 mt-1">
+          Full Name is required
         </Text>
       )}
 
@@ -91,15 +122,15 @@ const RegisterScreen = () => {
               value={value}
             />
           )}
-          name="Password"
+          name="password"
         />
         <TouchableOpacity onPress={() => setIsSecure(!isSecure)}>
           <Feather name={isSecure ? "eye" : "eye-off"} size={22} color="gray" />
         </TouchableOpacity>
       </View>
-      {errors.Password && (
+      {errors.password && (
         <Text className="text-red-500 text-sm ml-6 mt-1">
-          {errors.Password.type === "required"
+          {errors.password.type === "required"
             ? "Password is required"
             : "Password must be at least 6 characters long"}
         </Text>
@@ -127,7 +158,7 @@ const RegisterScreen = () => {
               value={value}
             />
           )}
-          name="ConfirmPassword"
+          name="confirmPassword"
         />
         <TouchableOpacity onPress={() => setIsConfirmSecure(!isConfirmSecure)}>
           <Feather
@@ -137,9 +168,9 @@ const RegisterScreen = () => {
           />
         </TouchableOpacity>
       </View>
-      {errors.ConfirmPassword && (
+      {errors.confirmPassword && (
         <Text className="text-red-500 text-sm ml-6 mt-1">
-          {errors.ConfirmPassword.message || "Confirm Password is required"}
+          {errors.confirmPassword.message || "Confirm Password is required"}
         </Text>
       )}
 

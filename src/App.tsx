@@ -5,8 +5,9 @@ import { Asset } from "expo-asset";
 import { createURL } from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import * as React from "react";
-import { useColorScheme,StatusBar } from "react-native";
+import { useColorScheme, StatusBar } from "react-native";
 import { AuthNavigation, Navigation } from "./navigation";
+import { useAuthStore } from "./store/auth";
 
 Asset.loadAsync([
   ...NavigationAssets,
@@ -21,21 +22,40 @@ const prefix = createURL("/");
 export function App() {
   const colorScheme = useColorScheme();
 
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <AuthNavigation
-        theme={theme}
-        linking={{
-        enabled: "auto",
-        prefixes: [prefix],
-      }}
-      onReady={() => {
-        SplashScreen.hideAsync();
-      }}
-     />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      {isAuthenticated ? (
+        <Navigation
+          theme={theme}
+          linking={{
+            enabled: "auto",
+            prefixes: [prefix],
+          }}
+          onReady={() => {
+            SplashScreen.hideAsync();
+          }}
+        />
+      ) : (
+        <AuthNavigation
+          theme={theme}
+          linking={{
+            enabled: "auto",
+            prefixes: [prefix],
+          }}
+          onReady={() => {
+            SplashScreen.hideAsync();
+          }}
+        />
+      )}
     </>
   );
 }

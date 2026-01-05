@@ -6,7 +6,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Image } from "react-native";
 import newspaper from "../assets/newspaper.png";
-import { Home } from "./screens/Home";
+import HomeScreen from "./screens/Home";
 import { NotFound } from "./screens/NotFound";
 import LoginScreen from "./screens/auth/LoginScreen";
 import WelcomeScreen from "./screens/auth/WelcomeScreen";
@@ -15,9 +15,9 @@ import RegisterScreen from "./screens/auth/RegisterScreen";
 const HomeTabs = createBottomTabNavigator({
   screens: {
     Home: {
-      screen: Home,
+      screen: HomeScreen,
       options: {
-        title: "Feed",
+        title: "Home",
         tabBarIcon: ({ color, size }) => (
           <Image
             source={newspaper}
@@ -62,9 +62,10 @@ const AuthStack = createNativeStackNavigator({
 const RootStack = createNativeStackNavigator({
   screens: {
     Home: {
-      screen: Home,
+      screen: HomeScreen,
       options: {
         title: "Home",
+        headerShown: false,
       },
     },
     NotFound: {

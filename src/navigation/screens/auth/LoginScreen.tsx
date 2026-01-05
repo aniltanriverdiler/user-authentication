@@ -6,25 +6,31 @@ import CheckBox from "../../../components/common/CheckBox";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
+import { useAuthStore } from "../../../store/auth";
 
 type FormData = {
-  Email: string;
-  Password: string;
+  email: string;
+  password: string;
 };
 
 const LoginScreen = () => {
+  const login = useAuthStore((state) => state.login);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      Email: "",
-      Password: "",
+      email: "",
+      password: "",
     },
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+    login({ email: data.email, fullName: "" });
+  };
 
   const navigation = useNavigation();
 
@@ -58,9 +64,9 @@ const LoginScreen = () => {
             value={value}
           />
         )}
-        name="Email"
+        name="email"
       />
-      {errors.Email && (
+      {errors.email && (
         <Text className="text-red-500 text-sm ml-6 mt-1">
           Email is required
         </Text>
@@ -85,13 +91,13 @@ const LoginScreen = () => {
               value={value}
             />
           )}
-          name="Password"
+          name="password"
         />
         <TouchableOpacity onPress={() => setIsSecure(!isSecure)}>
           <Feather name={isSecure ? "eye" : "eye-off"} size={22} color="gray" />
         </TouchableOpacity>
       </View>
-      {errors.Password && (
+      {errors.password && (
         <Text className="text-red-500 text-sm ml-6 mt-1">
           Password is required
         </Text>
